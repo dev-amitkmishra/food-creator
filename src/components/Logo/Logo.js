@@ -4,7 +4,9 @@ import appLogo from "../../assets/images/logo.png";
 
 const logo = (props) => {
     return (
-        <div className={classes.Logo}><img alt="Nothing" src={appLogo}/></div>
+        <div 
+        className={classes.Logo}
+        style={{height: props.height}}><img alt="Nothing" src={appLogo}/></div>
     );
 };
 
