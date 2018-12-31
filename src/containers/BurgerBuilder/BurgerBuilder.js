@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import Aux from '../../hoc/_aux';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
+import Modal from '../../components/UI/Modal/Modal';
+import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 
 const INGREDIENT_PRICES = {
     salad: 0.5,
@@ -19,7 +21,8 @@ class BurgerBuilder extends Component {
             meat: 0
         },
         price: 5,
-        purchasable: false
+        purchasable: false,
+        isPurchasing: false
     };
     subtractIngredientHandler = (item) => {
         const oldCounter = this.state.ingredients[item];
@@ -66,6 +69,17 @@ class BurgerBuilder extends Component {
             purchasable: sum > 0
         })
     }
+
+    purchaseHandler = () => {
+        this.setState({isPurchasing: true});
+    }
+    purchaseCancelHandler = () => {
+        this.setState({isPurchasing: false});
+    }
+    purchaseContinueHandler = () => {
+        alert('Continue');
+    }
+
     render() {
         const disableData = {
             ...this.state.ingredients
@@ -80,10 +94,18 @@ class BurgerBuilder extends Component {
         }
         return (
             <Aux>
+                <Modal modalClosed={this.purchaseCancelHandler} show={this.state.isPurchasing}>
+                    <OrderSummary 
+                        price={this.state.price}
+                        ingredients={this.state.ingredients}
+                        purchaseCanceled={this.purchaseCancelHandler}
+                        purchaseContinued={this.purchaseContinueHandler}/>
+                </Modal>
                 <Burger ingredients={this.state.ingredients}/>
                 <BuildControls
                     disabled={disableData}
                     price={this.state.price}
+                    ordered={this.purchaseHandler}
                     purchasable={this.state.purchasable}
                     subtractIngredient={this.subtractIngredientHandler}
                     addIngredient={this.addIngredientHandler}/>
