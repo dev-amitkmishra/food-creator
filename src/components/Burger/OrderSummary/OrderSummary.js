@@ -30,6 +30,6 @@ class OrderSummary extends Component {
             </Aux>
         );
     }
-};
+}
 
 export default OrderSummary;
